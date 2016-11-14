@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SeenIt</string>
+    <string name="NewSerie">Add Serie</string>
+    <string name="textViewSerieNameValule">Serie Name:</string>
+    <string name="textViewSerieSeasonsValue">Number of seasons:</string>
+    <string name="textViewSerieChaptersValue">Number of seasonChapters each season:</string>
+    <string name="buttonAddSerieTextValue">Add Serie</string>
+    <string name="textViewAddSeasonValue">Number of season to add:</string>
+    <string name="buttonAddSeasonTextValue">Add Season</string>
+</resources>
