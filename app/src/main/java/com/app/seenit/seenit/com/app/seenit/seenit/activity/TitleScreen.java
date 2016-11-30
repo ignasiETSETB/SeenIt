@@ -1,8 +1,6 @@
 package com.app.seenit.seenit.com.app.seenit.seenit.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,8 +15,7 @@ import com.app.seenit.seenit.R;
 import com.app.seenit.seenit.beans.SeenItBean;
 import com.app.seenit.seenit.beans.SerieBean;
 import com.app.seenit.seenit.services.SharedPreferencesManager;
-import com.app.seenit.seenit.utils.utils;
-import com.google.gson.Gson;
+import com.app.seenit.seenit.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -35,10 +32,14 @@ public class TitleScreen extends AppCompatActivity {
         setContentView(R.layout.activity_title_screen);
 
         String savedData= SharedPreferencesManager.getData(this,"seenItBean",null);
+
         if(savedData!=null){
             SeenItBean seenItBean=new SeenItBean();
-            seenItBean=(SeenItBean) utils.stringToObject(savedData,seenItBean);
+            seenItBean=(SeenItBean) Utils.stringToObject(savedData,seenItBean);
             SeenItBean.getInstance().setSerieArray(seenItBean.getSerieArray());
+            Utils.getInstance().setContext(this.getApplicationContext());
+        }else{
+            Utils.getInstance().setContext(this.getApplicationContext());
         }
         seenItBeanArray=SeenItBean.getInstance().getSerieArray();
         serieTitleArray.clear();

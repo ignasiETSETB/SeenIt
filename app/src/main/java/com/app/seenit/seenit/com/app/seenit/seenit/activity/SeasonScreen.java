@@ -9,16 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.app.seenit.seenit.R;
 import com.app.seenit.seenit.beans.SeasonBean;
 import com.app.seenit.seenit.beans.SeenItBean;
 import com.app.seenit.seenit.beans.SerieBean;
-import com.app.seenit.seenit.utils.utils;
 
 import java.util.ArrayList;
 

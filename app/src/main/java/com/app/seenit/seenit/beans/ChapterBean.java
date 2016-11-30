@@ -11,6 +11,13 @@ public class ChapterBean {
     protected Integer currentChapterNumber;
     protected Boolean chapterSeen;
 
+    public ChapterBean(){
+        this.numberOfChapters=getNumberOfChapters();
+        this.chapterTitle=getChapterTitle();
+        this.currentChapterNumber=getCurrentChapterNumber();
+        this.chapterSeen=getChapterSeen();
+    }
+
     public Boolean getChapterSeen() {
         return chapterSeen;
     }

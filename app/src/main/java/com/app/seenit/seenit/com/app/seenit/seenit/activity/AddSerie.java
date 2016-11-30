@@ -2,7 +2,6 @@ package com.app.seenit.seenit.com.app.seenit.seenit.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +15,7 @@ import com.app.seenit.seenit.beans.ChapterBean;
 import com.app.seenit.seenit.beans.SeasonBean;
 import com.app.seenit.seenit.beans.SeenItBean;
 import com.app.seenit.seenit.beans.SerieBean;
-import com.app.seenit.seenit.services.SharedPreferencesManager;
-import com.app.seenit.seenit.utils.utils;
-import com.google.gson.Gson;
+import com.app.seenit.seenit.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -81,6 +78,7 @@ public class AddSerie extends AppCompatActivity {
                         chapterBean.setNumberOfChapters(numberOfChapters);
                         chapterBean.setCurrentChapterNumber(i+1);
                         chapterBean.setChapterTitle((j+1)+chapterAdder+(i+1));
+                        chapterBean.setChapterSeen(false);
                         chapterArray.add(chapterBean);
                     }
                     seasonBean.setNumberOfSeasons(numberOfSeasons);
@@ -96,9 +94,9 @@ public class AddSerie extends AppCompatActivity {
 
 
                 SeenItBean.getInstance().addSerie(serieBean);
-                SeenItBean seenItBean=SeenItBean.getInstance();
-                String saveData= utils.objectToJson(seenItBean);
-                SharedPreferencesManager.saveData(context,"seenItBean",saveData);
+
+                Utils.saveData();
+
                 returnToTitle();
             }
         });

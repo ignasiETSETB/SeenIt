@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.seenit.seenit.R;
+import com.app.seenit.seenit.adapters.ChapterAdapter;
 import com.app.seenit.seenit.beans.ChapterBean;
 import com.app.seenit.seenit.beans.SeasonBean;
 import com.app.seenit.seenit.beans.SeenItBean;
@@ -30,9 +31,13 @@ public class ChapterScreen extends AppCompatActivity {
     private SeasonBean seasonBean;
     private ArrayList<String> chapterTitleArray=new ArrayList<>();
     private ArrayAdapter<String> chapterTitleArrayAdapter;
+    private ChapterAdapter chapterAdapter;
+    private ArrayList<ChapterBean> chapterBeanArray;
+    private ChapterBean chapterBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapter_screen);
         listOfChapters=(ListView) findViewById(R.id.chapterlist);
@@ -47,6 +52,7 @@ public class ChapterScreen extends AppCompatActivity {
                 for(SeasonBean searchSeasonBean: serieBean.getSeasons()){
                     if(searchSeasonBean.getSeasonTitle().equals(seasonSelected)){
                         seasonBean=searchSeasonBean;
+                        chapterBeanArray =searchSeasonBean.getSeasonChapters();
                     }
                 }
             }
@@ -56,16 +62,23 @@ public class ChapterScreen extends AppCompatActivity {
             chapterTitleArray.add(chapterTitle.getChapterTitle());
         }
 
+        chapterAdapter=new ChapterAdapter(ChapterScreen.this, R.layout.chapter_list_adapter, chapterBeanArray.toArray(new ChapterBean[chapterBeanArray.size()]));
+        listOfChapters.setAdapter(chapterAdapter);
+        /*
         chapterTitleArrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, chapterTitleArray);
         listOfChapters.setAdapter(chapterTitleArrayAdapter);
-
+        */
         listOfChapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String chapterClickedTitle=((TextView)view).getText().toString();
+                ChapterBean clickedChapter=(ChapterBean) listOfChapters.getItemAtPosition(i);
+                if(clickedChapter.getChapterSeen()==true){
+                    clickedChapter.setChapterSeen(false);
 
-
+                }else{
+                    clickedChapter.setChapterSeen(true);
+                }
             }
         });
     }
