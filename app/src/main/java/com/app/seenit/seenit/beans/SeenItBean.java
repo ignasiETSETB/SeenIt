@@ -1,5 +1,7 @@
 package com.app.seenit.seenit.beans;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 /**
