@@ -15,5 +15,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/chapterlist" />
+        android:id="@+id/chapterlist"
+        android:background="@drawable/selector"/>
 </RelativeLayout>

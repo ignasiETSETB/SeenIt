@@ -12,19 +12,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.seenit.seenit.R;
+import com.app.seenit.seenit.adapters.DialogView;
+import com.app.seenit.seenit.adapters.SerieAdapter;
 import com.app.seenit.seenit.beans.SeenItBean;
 import com.app.seenit.seenit.beans.SerieBean;
 import com.app.seenit.seenit.services.SharedPreferencesManager;
 import com.app.seenit.seenit.utils.Utils;
+import com.app.seenit.seenit.utils.VariableShare;
 
 import java.util.ArrayList;
 
 public class TitleScreen extends AppCompatActivity {
 
     private ListView titleListView;
-    private ArrayAdapter<String> serieTitleArrayAdapter;
-    private ArrayList<String> serieTitleArray =new ArrayList<>();
-    private ArrayList<SerieBean> seenItBeanArray;
+    private static ArrayAdapter<String> serieTitleArrayAdapter;
+    private static ArrayList<String> serieTitleArray =new ArrayList<>();
+    private ArrayList<SerieBean> serieBeanArray;
+    private SerieAdapter serieAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,25 +45,44 @@ public class TitleScreen extends AppCompatActivity {
         }else{
             Utils.getInstance().setContext(this.getApplicationContext());
         }
-        seenItBeanArray=SeenItBean.getInstance().getSerieArray();
+        serieBeanArray =SeenItBean.getInstance().getSerieArray();
         serieTitleArray.clear();
-        for(SerieBean serieBean: seenItBeanArray){
+        for(SerieBean serieBean: serieBeanArray){
             serieTitleArray.add(serieBean.getTitle());
         }
         //serieTitleArrayAdapter.notifyDataSetChanged();
         titleListView=(ListView) findViewById(R.id.titleList);
+
+        serieAdapter=new SerieAdapter(TitleScreen.this, R.layout.serie_list_adapter, serieBeanArray.toArray(new SerieBean[serieBeanArray.size()]));
+        titleListView.setAdapter(serieAdapter);
+
+        /*
         serieTitleArrayAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, serieTitleArray);
         titleListView.setAdapter(serieTitleArrayAdapter);
-
+        */
         titleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                SerieBean clickedSerie=(SerieBean) titleListView.getItemAtPosition(i);
                 Intent intent= new Intent(getApplicationContext(), SeasonScreen.class);
-                String serieClickedTitle=((TextView)view).getText().toString();
-                intent.putExtra("selected_serie_name", serieClickedTitle);
+                intent.putExtra("selected_serie_name", clickedSerie.getTitle());
                 startActivity(intent);
 
+            }
+        });
+
+        titleListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                SerieBean longClickedChapter=(SerieBean) titleListView.getItemAtPosition(i);
+                VariableShare.getInstance().setClickedEditSerie(longClickedChapter);
+                VariableShare.getInstance().setClickedItemOptions(i);
+                DialogView myDialog=new DialogView();
+                myDialog.show(getSupportFragmentManager(),"my_dialog");
+
+                return true;
             }
         });
 
@@ -87,5 +110,13 @@ public class TitleScreen extends AppCompatActivity {
         }
 
 
+    }
+
+    public static void refreshAdapter(){
+        serieTitleArray.clear();
+        for(SerieBean serieBean: SeenItBean.getInstance().getSerieArray()){
+            serieTitleArray.add(serieBean.getTitle());
+        }
+        serieTitleArrayAdapter.notifyDataSetChanged();
     }
 }

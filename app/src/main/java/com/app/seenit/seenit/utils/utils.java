@@ -44,7 +44,7 @@ public class Utils {
     }
 
     public static void saveData(){
-        SeenItBean seenItBean=new SeenItBean();
+        SeenItBean seenItBean;
         seenItBean=SeenItBean.getInstance();
         String saveData= Utils.objectToJson(seenItBean);
         SharedPreferencesManager.saveData(context,"seenItBean",saveData);

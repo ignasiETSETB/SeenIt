@@ -2,32 +2,32 @@ package com.app.seenit.seenit.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.seenit.seenit.R;
 import com.app.seenit.seenit.beans.ChapterBean;
+import com.app.seenit.seenit.beans.SerieBean;
 
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Isangi on 30/11/2016.
+ * Created by Isangi on 18/12/2016.
  */
 
-public class ChapterAdapter extends ArrayAdapter<ChapterBean> {
+public class SerieAdapter extends ArrayAdapter<SerieBean> {
+
 
     Context context;
     int layoutResourceId;
-    ChapterBean[] data=null;
+    SerieBean[] data=null;
 
 
-    public ChapterAdapter(Context context, int layoutResourceId, ChapterBean[] data){
+    public SerieAdapter(Context context, int layoutResourceId, SerieBean[] data){
         super(context,layoutResourceId,data);
         this.layoutResourceId=layoutResourceId;
         this.context=context;
@@ -49,26 +49,21 @@ public class ChapterAdapter extends ArrayAdapter<ChapterBean> {
 
             holder=new ChapterHolder();
 
-            holder.title=(TextView)row.findViewById(R.id.txtChapterTitleAdapter);
-            holder.background=(TextView) row.findViewById(R.id.tvChapterBG);
+            holder.title=(TextView)row.findViewById(R.id.txtSerieTitleAdapter);
+            holder.background=(TextView) row.findViewById(R.id.tvSerieBG);
             row.setTag(holder);
         }else{
 
             holder=(ChapterHolder)row.getTag();
         }
 
-        ChapterBean chapterBean=data[position];
+        SerieBean serieBean=data[position];
 
-        holder.title.setText(chapterBean.getChapterTitle());
-
-        if(chapterBean.getChapterSeen()==true){
-            holder.background.setBackground(this.getContext().getDrawable(R.drawable.round_seen));
-        }else{
-            holder.background.setBackground(this.getContext().getDrawable(R.drawable.round));
-
-        }
+        holder.title.setText(serieBean.getTitle());
 
         return row;
     }
+
+
 
 }

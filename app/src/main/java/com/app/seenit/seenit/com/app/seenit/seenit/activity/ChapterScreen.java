@@ -10,13 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.seenit.seenit.R;
 import com.app.seenit.seenit.adapters.ChapterAdapter;
+import com.app.seenit.seenit.adapters.DialogView;
 import com.app.seenit.seenit.beans.ChapterBean;
 import com.app.seenit.seenit.beans.SeasonBean;
 import com.app.seenit.seenit.beans.SeenItBean;
 import com.app.seenit.seenit.beans.SerieBean;
+import com.app.seenit.seenit.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -30,10 +33,8 @@ public class ChapterScreen extends AppCompatActivity {
     private SerieBean serieBean;
     private SeasonBean seasonBean;
     private ArrayList<String> chapterTitleArray=new ArrayList<>();
-    private ArrayAdapter<String> chapterTitleArrayAdapter;
     private ChapterAdapter chapterAdapter;
     private ArrayList<ChapterBean> chapterBeanArray;
-    private ChapterBean chapterBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,10 +65,7 @@ public class ChapterScreen extends AppCompatActivity {
 
         chapterAdapter=new ChapterAdapter(ChapterScreen.this, R.layout.chapter_list_adapter, chapterBeanArray.toArray(new ChapterBean[chapterBeanArray.size()]));
         listOfChapters.setAdapter(chapterAdapter);
-        /*
-        chapterTitleArrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, chapterTitleArray);
-        listOfChapters.setAdapter(chapterTitleArrayAdapter);
-        */
+
         listOfChapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -75,13 +73,22 @@ public class ChapterScreen extends AppCompatActivity {
                 ChapterBean clickedChapter=(ChapterBean) listOfChapters.getItemAtPosition(i);
                 if(clickedChapter.getChapterSeen()==true){
                     clickedChapter.setChapterSeen(false);
+                    view.setSelected(false);
+                    System.out.println("Chapter "+clickedChapter.getChapterTitle()+" marked as "+clickedChapter.getChapterSeen());
 
                 }else{
                     clickedChapter.setChapterSeen(true);
+                    view.setSelected(true);
+                    System.out.println("Chapter "+clickedChapter.getChapterTitle()+" marked as "+clickedChapter.getChapterSeen());
                 }
+                chapterAdapter.notifyDataSetChanged();
+                Utils.saveData();
             }
         });
-    }
+
+
+
+      }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
